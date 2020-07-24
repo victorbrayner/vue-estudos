@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matador de Monstros</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="panel scores">
+            <div class="score">
+                <h1>Atila Iamarino</h1>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Atila_Iamarino.jpg/1200px-Atila_Iamarino.jpg">
+                <div class="life-bar">
+                    <div class="life"
+                        :class="{danger: playerLife < 20}"
+                        :style="{width: playerLife + '%'}"></div>
+                </div>
+                <div>{{ playerLife }}%</div>
+            </div>
+            <div class="score">
+                <h1>Covid-19</h1>
+                <img src="https://claudemirpereira.nyc3.cdn.digitaloceanspaces.com/2020/05/corona-lil%C3%A1s-quadrado-rotated.jpg">
+                <div class="life-bar">
+                    <div class="life"
+                        :class="{danger: monsterLife < 20}"
+                        :style="{width: monsterLife + '%'}"></div>
+                </div>
+                <div>{{ monsterLife }}%</div>
+            </div>
+        </div>
+
+        <div v-if="hasResult" class="panel result">
+            <div v-if="monsterLife === 0" class="win">Atila TRUCIDOU o vírus com suas próprias mões!!</div>
+            <div v-else class="lose">Corona vaaaairus!!</div>
+        </div>
+
+        <div class="panel buttons">
+            <template v-if="running">
+                <button @click="attack(false)"
+                    class="btn attack">Ataque</button>
+                <button @click="attack(true)"
+                    class="btn special-attack">Ataque Especial</button>
+                <button @click="healAndHurt"
+                    class="btn heal">Curar</button>
+                <button @click="running = false"
+                class="btn quit">Desistir</button>
+            </template>
+            <button v-else @click="startGame"
+                class="btn start">Iniciar Jogo</button>
+        </div>
+        <div v-if="logs.length"
+            class="panel logs">
+            <ul>
+                <li v-for="log in logs"
+                :class="log.cls"
+                class="log">{{ log.text }}</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
